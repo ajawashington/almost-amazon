@@ -18,6 +18,14 @@ const domEvents = () => {
     // CLICK EVENT FOR SUBMITTING FORM FOR ADDING A BOOK
     if (e.target.id.includes('submit-book')) {
       console.warn('CLICKED SUBMIT BOOK', e.target.id);
+      const bookObject = {
+        title: document.querySelector('#title').value,
+        image: document.querySelector('#image').value,
+        price: document.querySelector('#price').value,
+        sale: document.querySelector('#sale').checked,
+        author_id: document.querySelector('#author').value,
+      };
+      console.warn(bookObject);
     }
 
     // CLICK EVENT FOR EDITING A BOOK

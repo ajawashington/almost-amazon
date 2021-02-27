@@ -11,9 +11,14 @@ const getBooks = () => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default getBooks;
-
 // DELETE BOOK
 // CREATE BOOK
+const createBook = (bookObject) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/books.json`, bookObject)
+    .then((response) => {
+      console.warn(response.data.name);
+    }).catch((error) => reject(error));
+});
 // UPDATE BOOK
 // SEARCH BOOKS
+export { getBooks, createBook };
