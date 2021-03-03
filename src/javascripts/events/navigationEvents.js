@@ -1,7 +1,9 @@
+import { emptyBooks, showBooks } from '../components/books';
 import signOut from '../helpers/auth/signOut';
+import { getBooks } from '../helpers/data/bookData';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (uid) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
@@ -13,7 +15,13 @@ const navigationEvents = () => {
 
   // ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    console.warn('All Books');
+    getBooks(uid).then((booksArray) => {
+      if (booksArray.length) {
+        showBooks(booksArray);
+      } else {
+        emptyBooks();
+      }
+    });
   });
 
   // SEARCH
