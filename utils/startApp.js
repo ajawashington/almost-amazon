@@ -6,6 +6,7 @@ import domEvents from '../events/domEvents';
 import formEvents from '../events/formEvents';
 import navigationEvents from '../events/navigationEvents';
 import { showBooks } from '../pages/books';
+// import { showBooks } from '../pages/books';
 
 const startApp = () => {
   domBuilder(); // BUILD THE DOM
