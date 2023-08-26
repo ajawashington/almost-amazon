@@ -3,7 +3,7 @@ import { deleteBook, getBooks, getSingleBook } from '../api/bookData';
 import { deleteAuthorBooksRelationship, getAuthorDetails, getBookDetails } from '../api/mergedData';
 import addAuthorForm from '../components/forms/addAuthorForm';
 import addBookForm from '../components/forms/addBookForm';
-import { showAuthors } from '../pages/authors';
+import { emptyAuthors, showAuthors } from '../pages/authors';
 import { showBooks } from '../pages/books';
 import viewAuthor from '../pages/viewAuthor';
 import viewBook from '../pages/viewBook';
@@ -41,7 +41,13 @@ const domEvents = () => {
     if (e.target.id.includes('delete-author-btn')) {
       if (window.confirm('Want to delete?')) {
         const [, firebaseKey] = e.target.id.split('--');
-        deleteAuthorBooksRelationship(firebaseKey).then(getAuthors).then(showAuthors);
+        deleteAuthorBooksRelationship(firebaseKey).then(getAuthors).then((array) => {
+          if (array.length) {
+            showAuthors(array);
+          } else {
+            emptyAuthors();
+          }
+        });
       }
     }
 

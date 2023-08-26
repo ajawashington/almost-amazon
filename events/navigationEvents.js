@@ -1,8 +1,8 @@
 import { signOut } from '../utils/auth';
 import { booksOnSale, getBooks } from '../api/bookData';
-import { showBooks } from '../pages/books';
+import { emptyBooks, showBooks } from '../pages/books';
 import { getAuthors, getFavoriteAuthors } from '../api/authorData';
-import { showAuthors } from '../pages/authors';
+import { emptyAuthors, showAuthors } from '../pages/authors';
 
 // navigation events
 const navigationEvents = () => {
@@ -15,11 +15,23 @@ const navigationEvents = () => {
   });
 
   document.querySelector('#all-books').addEventListener('click', () => {
-    getBooks().then(showBooks);
+    getBooks().then((array) => {
+      if (array.length) {
+        showBooks(array);
+      } else {
+        emptyBooks();
+      }
+    });
   });
 
   document.querySelector('#authors').addEventListener('click', () => {
-    getAuthors().then(showAuthors);
+    getAuthors().then((array) => {
+      if (array.length) {
+        showAuthors(array);
+      } else {
+        emptyAuthors();
+      }
+    });
   });
 
   document.querySelector('#favorite-authors').addEventListener('click', () => {

@@ -5,7 +5,7 @@ import navBar from '../components/shared/navBar';
 import domEvents from '../events/domEvents';
 import formEvents from '../events/formEvents';
 import navigationEvents from '../events/navigationEvents';
-import { showBooks } from '../pages/books';
+import { emptyBooks, showBooks } from '../pages/books';
 // import { showBooks } from '../pages/books';
 
 const startApp = () => {
@@ -16,7 +16,13 @@ const startApp = () => {
   logoutButton(); // ADD THE LOGOUT BUTTON COMPONENT
   navigationEvents(); // ATTACH THE EVENT LISTENERS TO THE NAVBAR
 
-  getBooks().then(showBooks);
+  getBooks().then((array) => {
+    if (array.length) {
+      showBooks(array);
+    } else {
+      emptyBooks();
+    }
+  });
 };
 
 export default startApp;
