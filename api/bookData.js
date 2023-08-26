@@ -78,7 +78,7 @@ const booksOnSale = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// TODO: STRETCH...SEARCH BOOKS
+//  STRETCH...SEARCH BOOKS
 
 export {
   getBooks,

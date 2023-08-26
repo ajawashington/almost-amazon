@@ -13,7 +13,7 @@ const showBooks = (array) => {
   renderToDOM('#add-button', btnString);
   let domString = '';
 
-  if (array.length < 1) {
+  if (!array.length) {
     domString += '<p>No Books Found</p>';
   } else {
     array.forEach((item) => {

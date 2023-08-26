@@ -16,7 +16,6 @@ const showAuthors = (array) => {
   let domString = '';
   if (array.length < 1) {
     domString += '<p>No Authors Found</p>';
-    console.warn('I am here');
   } else {
     array.forEach((item) => {
       domString += `
