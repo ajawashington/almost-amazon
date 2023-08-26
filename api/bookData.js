@@ -79,6 +79,32 @@ const booksOnSale = () => new Promise((resolve, reject) => {
 });
 
 //  STRETCH...SEARCH BOOKS
+const searchBooks = (searchValue) => new Promise((resolve, reject) => {
+  getBooks().then((booksArray) => {
+    const searchResults = booksArray.filter((book) => (
+      book.title.toLowerCase().includes(searchValue)
+      || book.description.toLowerCase().includes(searchValue)
+    ));
+
+    // const description = booksArray.filter((book) => book.description.toLowerCase().includes(searchValue));
+
+    // const commonItemArray = [];
+    // const array = [];
+
+    // title.forEach((t) => {
+    //   description.forEach((d) => {
+    //     if (t === d) {
+    //       commonItemArray.push(t);
+    //     } else {
+    //       array.push(d);
+    //     }
+    //   });
+    // });
+
+    // const commonItems = commonItemArray.concat(array);
+    resolve(searchResults);
+  }).catch(reject);
+});
 
 export {
   getBooks,
@@ -86,5 +112,6 @@ export {
   booksOnSale,
   deleteBook,
   getSingleBook,
-  updateBook
+  updateBook,
+  searchBooks,
 };
