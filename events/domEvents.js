@@ -10,7 +10,7 @@ import viewBook from '../pages/viewBook';
 // import viewBook from '../pages/viewBook';
 
 /* eslint-disable no-alert */
-const domEvents = () => {
+const domEvents = (user) => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id.includes('delete-book')) {
       if (window.confirm('Want to delete?')) {
@@ -20,12 +20,12 @@ const domEvents = () => {
     }
 
     if (e.target.id.includes('add-book-btn')) {
-      addBookForm();
+      addBookForm(user.uid);
     }
 
     if (e.target.id.includes('edit-book-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
-      getSingleBook(firebaseKey).then((bookObj) => addBookForm(bookObj));
+      getSingleBook(firebaseKey).then((bookObj) => addBookForm(user.uid, bookObj));
     }
 
     if (e.target.id.includes('view-book-btn')) {
@@ -41,23 +41,25 @@ const domEvents = () => {
     if (e.target.id.includes('delete-author-btn')) {
       if (window.confirm('Want to delete?')) {
         const [, firebaseKey] = e.target.id.split('--');
-        deleteAuthorBooksRelationship(firebaseKey).then(getAuthors).then((array) => {
-          if (array.length) {
-            showAuthors(array);
-          } else {
-            emptyAuthors();
-          }
+        deleteAuthorBooksRelationship(firebaseKey).then(() => {
+          getAuthors(user.uid).then((array) => {
+            if (array.length) {
+              showAuthors(array);
+            } else {
+              emptyAuthors();
+            }
+          });
         });
       }
     }
 
     if (e.target.id.includes('add-author-btn')) {
-      addAuthorForm();
+      addAuthorForm(user.uid);
     }
 
     if (e.target.id.includes('edit-author-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
-      getSingleAuthor(firebaseKey).then((authorObj) => addAuthorForm(authorObj));
+      getSingleAuthor(firebaseKey).then((authorObj) => addAuthorForm(user.uid, authorObj));
     }
   });
 };
