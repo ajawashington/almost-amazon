@@ -3,6 +3,8 @@ import { booksOnSale, getBooks, searchBooks } from '../api/bookData';
 import { emptyBooks, showBooks } from '../pages/books';
 import { getAuthors, getFavoriteAuthors } from '../api/authorData';
 import { emptyAuthors, showAuthors } from '../pages/authors';
+import { getOrders } from '../api/orderData';
+import { emptyOrders, showOrders } from '../pages/orders';
 
 // navigation events
 const navigationEvents = (user) => {
@@ -12,6 +14,16 @@ const navigationEvents = (user) => {
 
   document.querySelector('#sale-books').addEventListener('click', () => {
     booksOnSale(user.uid).then(showBooks);
+  });
+
+  document.querySelector('#orders').addEventListener('click', () => {
+    getOrders(user.uid).then((array) => {
+      if (array.length) {
+        showOrders(array);
+      } else {
+        emptyOrders();
+      }
+    });
   });
 
   document.querySelector('#all-books').addEventListener('click', () => {

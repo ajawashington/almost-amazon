@@ -1,7 +1,9 @@
 import { createAuthor, getAuthors, updateAuthor } from '../api/authorData';
 import { createBook, getBooks, updateBook } from '../api/bookData';
+import { createOrder, getOrders, updateOrder } from '../api/orderData';
 import { showAuthors } from '../pages/authors';
 import { showBooks } from '../pages/books';
+import { showOrders } from '../pages/orders';
 
 const formEvents = (user) => {
   document.querySelector('#main-container').addEventListener('submit', (e) => {
@@ -22,6 +24,23 @@ const formEvents = (user) => {
 
         updateBook(patchPayload).then(() => {
           getBooks(user.uid).then(showBooks);
+        });
+      });
+    }
+    if (e.target.id.includes('submit-order')) {
+      const payload = {
+        customerName: document.querySelector('#customer_name').value,
+        email: document.querySelector('#email').value,
+        orderType: document.querySelector('#order_type').value,
+        dateCreated: new Date().now,
+        uid: user.uid
+      };
+
+      createOrder(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+
+        updateOrder(patchPayload).then(() => {
+          getOrders(user.uid).then(showOrders);
         });
       });
     }

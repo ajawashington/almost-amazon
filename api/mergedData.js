@@ -1,7 +1,8 @@
 // for merged promises
 
 import { deleteSingleAuthor, getAuthorBooks, getSingleAuthor } from './authorData';
-import { deleteBook, getSingleBook } from './bookData';
+import { deleteBook, getBooks, getSingleBook } from './bookData';
+import { getOrderBooks, getSingleOrder } from './orderData';
 
 const getBookDetails = (firebaseKey) => new Promise((resolve, reject) => {
   getSingleBook(firebaseKey).then((bookObj) => {
@@ -28,4 +29,25 @@ const deleteAuthorBooksRelationship = (firebaseKey) => new Promise((resolve, rej
   }).catch(reject);
 });
 
-export { getBookDetails, getAuthorDetails, deleteAuthorBooksRelationship };
+const getOrderDetails = async (orderId) => {
+  const order = await getSingleOrder(orderId);
+  const allOrderBooks = await getOrderBooks(orderId);
+  const getSingleBooks = await allOrderBooks.map((book) => getSingleBook(book.bookId));
+  const orderBooks = await Promise.all(getSingleBooks);
+
+  return { ...order, orderBooks };
+};
+
+const getBooksNotInTheOrder = async (uid, orderId) => {
+  const allBooks = await getBooks(uid);
+  const orderBooks = await getOrderBooks(orderId);
+  const bookPromises = await orderBooks.map((book) => getSingleBook(book.bookId));
+  const books = await Promise.all(bookPromises);
+  const filterBooks = await allBooks.filter((obj) => !books.some((e) => e.firebaseKey === obj.firebaseKey));
+
+  return filterBooks;
+};
+
+export {
+  getBookDetails, getAuthorDetails, deleteAuthorBooksRelationship, getOrderDetails, getBooksNotInTheOrder
+};
