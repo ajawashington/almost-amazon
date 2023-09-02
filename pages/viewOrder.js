@@ -5,6 +5,8 @@ import addBooksToOrder from './addBooksToOrder';
 const viewOrder = (obj, uid) => {
   clearDom();
   let domString = '';
+  // SUM UP PRICE OF ORDER USING THE .REDUCE() array method
+  // Grab the previous value and add the next value...starting at 0
   const total = obj.orderBooks.reduce((prev, next) => prev + next.price, 0);
 
   domString += `
@@ -34,6 +36,7 @@ const viewOrder = (obj, uid) => {
 
   renderToDOM('#view', domString);
 
+  // Call Function to Render Books NOT related to the viewed Order
   addBooksToOrder(uid, obj.firebaseKey);
 };
 

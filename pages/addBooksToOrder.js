@@ -1,12 +1,13 @@
 import { getBooksNotInTheOrder } from '../api/mergedData';
 import renderToDOM from '../utils/renderToDom';
 
+// FUNCTION TO RENDER BOOKS NOT IN THE ORDER
 const addBooksToOrder = async (uid, orderId) => {
   let domString = '';
   const array = await getBooksNotInTheOrder(uid, orderId);
 
   if (!array.length) {
-    domString += '<p style="color:white">All Available Books Are Added</p>';
+    domString += '<p style="color:white">All Available Books Are Added To Order</p>';
   } else {
     array.forEach((item) => {
       domString += `
@@ -19,6 +20,9 @@ const addBooksToOrder = async (uid, orderId) => {
       </div>
     </div>
         <i class="btn btn-success fas fa-eye" id="view-book-btn--${item.firebaseKey}"></i>
+
+        // Be sure button has both the bookId and the orderId so we can split and grab both values to make our payload
+        // Refer to Domevents.js Line 28 
         <i id="add-book-order-btn--${item.firebaseKey}--${orderId}" class="btn btn-danger">Add Book To Bag</i>`;
     });
   }

@@ -5,7 +5,7 @@ import {
 } from '../api/mergedData';
 import {
   createOrderBook, deleteBookOrder, getSingleBookOrder, updateOrderBook
-} from '../api/orderData';
+} from '../api/orderBookData';
 import addAuthorForm from '../components/forms/addAuthorForm';
 import addBookForm from '../components/forms/addBookForm';
 import addOrderForm from '../components/forms/addOrderForm';
@@ -26,11 +26,13 @@ const domEvents = (user) => {
     }
 
     if (e.target.id.includes('add-book-order-btn')) {
+      // DESTRUCTING THE VALUES IN THE ID
       const [, bookId, orderId] = e.target.id.split('--');
 
       const payload = {
         orderId,
-        bookId
+        bookId,
+        uid: user.uid
       };
 
       createOrderBook(payload).then(({ name }) => {
@@ -43,7 +45,10 @@ const domEvents = (user) => {
     }
 
     if (e.target.id.includes('delete-book-from-order-btn')) {
+      // DESTRUCTING THE VALUES IN THE ID
       const [, bookId, orderId] = e.target.id.split('--');
+
+      // GET THE SINGLE ORDERBOOK WITH THE RELATED BOOK AND ORDER ID
       getSingleBookOrder(bookId, orderId).then((obj) => deleteBookOrder(obj.firebaseKey)).then(() => {
         getOrderDetails(orderId).then((res) => viewOrder(res, user.uid));
       });
