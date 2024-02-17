@@ -15,7 +15,7 @@ const startApp = (user) => {
   formEvents(user); // ADD FORM EVENT LISTENTERS TO THE DOM
   navigationEvents(user); // ATTACH THE EVENT LISTENERS TO THE NAVBAR
   logoutButton(); // ADD THE LOGOUT BUTTON COMPONENT
-
+  console.warn(user);
   getBooks(user.uid).then((array) => {
     if (array.length) {
       showBooks(array);

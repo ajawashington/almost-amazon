@@ -2,7 +2,8 @@
 
 import { deleteSingleAuthor, getAuthorBooks, getSingleAuthor } from './authorData';
 import { deleteBook, getBooks, getSingleBook } from './bookData';
-import { getOrderBooks, getSingleOrder } from './orderData';
+import { getOrderBooks } from './orderBookData';
+import { getSingleOrder } from './orderData';
 
 const getBookDetails = (firebaseKey) => new Promise((resolve, reject) => {
   getSingleBook(firebaseKey).then((bookObj) => {
