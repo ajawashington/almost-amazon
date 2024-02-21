@@ -2,9 +2,9 @@ import { getBooks } from '../api/bookData';
 import logoutButton from '../components/buttons/logoutButton';
 import domBuilder from '../components/shared/domBuilder';
 import navBar from '../components/shared/navBar';
+import navigationEvents from '../events/navigationEvents';
 import domEvents from '../events/domEvents';
 import formEvents from '../events/formEvents';
-import navigationEvents from '../events/navigationEvents';
 import { showBooks } from '../pages/books';
 
 const startApp = () => {
