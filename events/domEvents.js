@@ -6,11 +6,14 @@ const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id.includes('delete-book')) {
       if (window.confirm('Want to delete?')) {
+        console.warn('CLICKED DELETE BOOK', e.target.id);
         const [, firebaseKey] = e.target.id.split('--');
-        deleteBook(firebaseKey).then(getBooks).then(showBooks);
+
+        deleteBook(firebaseKey).then(() => {
+          getBooks().then(showBooks);
+        });
       }
     }
-
     // TODO: CLICK EVENT FOR SHOWING FORM FOR ADDING A BOOK
     if (e.target.id.includes('add-book-btn')) {
       console.warn('ADD BOOK');
