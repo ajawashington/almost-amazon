@@ -4,7 +4,6 @@ import { deleteAuthorAndAuthorBooks, getAuthorDetails, getBookDetailsPt2 } from 
 import addAuthorForm from '../components/forms/addAuthorForm';
 import addBookForm from '../components/forms/addBookForm';
 import { showAuthors } from '../pages/authors';
-// import { showAuthors } from '../pages/authors';
 import { showBooks } from '../pages/books';
 import viewAuthor from '../pages/viewAuthor';
 import viewBook from '../pages/viewBook';
