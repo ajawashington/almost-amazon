@@ -77,6 +77,17 @@ const booksOnSale = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getBookAuthors = (bookFirebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/bookAuthors.json?orderBy="book_id"&equalTo="${bookFirebaseKey}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
 // TODO: STRETCH...SEARCH BOOKS
 
 export {
@@ -85,5 +96,5 @@ export {
   booksOnSale,
   deleteBook,
   getSingleBook,
-  updateBook
+  updateBook, getBookAuthors
 };
