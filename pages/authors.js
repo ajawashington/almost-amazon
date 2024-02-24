@@ -3,7 +3,7 @@ import renderToDOM from '../utils/renderToDom';
 
 const emptyAuthors = () => {
   const domString = '<h1>No Authors</h1>';
-  renderToDOM('#store', domString);
+  renderToDOM('#author-store', domString);
 };
 
 const showAuthors = (array, shouldClear = true) => {

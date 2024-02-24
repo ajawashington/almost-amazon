@@ -2,8 +2,8 @@ import client from '../utils/client';
 
 const endpoint = client.databaseURL;
 
-const getAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json`, {
+const getAuthors = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -60,16 +60,12 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getFavoriteAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  }).then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
-});
+const getFavoriteAuthors = async (uid) => {
+  const authors = await getAuthors(uid);
+  const favoriteAuthors = await authors.filter((obj) => obj.favorite);
+
+  return favoriteAuthors;
+};
 
 const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${firebaseKey}"`, {

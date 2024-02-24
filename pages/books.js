@@ -3,7 +3,7 @@ import renderToDOM from '../utils/renderToDom';
 
 const emptyBooks = () => {
   const domString = '<h1>No Books</h1>';
-  renderToDOM('#store', domString);
+  renderToDOM('#book-store', domString);
 };
 
 const showBooks = (array, shouldClear = true) => {

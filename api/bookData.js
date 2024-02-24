@@ -3,8 +3,14 @@ import client from '../utils/client';
 
 const endpoint = client.databaseURL;
 
+<<<<<<< HEAD
 const getBooks = () => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json`, {
+=======
+// TODO: GET BOOKS
+const getBooks = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}"`, {
+>>>>>>> 044baf0 (User specific)
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -71,15 +77,27 @@ const updateBook = (payload) => new Promise((resolve, reject) => {
 });
 
 // TODO: FILTER BOOKS ON SALE
-const booksOnSale = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/books.json?orderBy="sale"&equalTo=true`, {
+const booksOnSale = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
+<<<<<<< HEAD
   })
     .then((response) => response.json())
     .then((data) => resolve(Object.values(data)))
+=======
+  }).then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        const saleBooks = Object.values(data).filter((obj) => obj.sale);
+        resolve(saleBooks);
+      } else {
+        resolve([]);
+      }
+    })
+>>>>>>> 044baf0 (User specific)
     .catch(reject);
 });
 
