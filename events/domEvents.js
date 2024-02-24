@@ -9,14 +9,12 @@ import viewAuthor from '../pages/viewAuthor';
 import viewBook from '../pages/viewBook';
 
 /* eslint-disable no-alert */
-const domEvents = (uid, variable) => {
-  console.warn(variable);
+const domEvents = (uid) => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id.includes('delete-book')) {
       if (window.confirm('Want to delete?')) {
         console.warn('CLICKED DELETE BOOK', e.target.id);
         const [, firebaseKey] = e.target.id.split('--');
-        console.warn(variable);
         deleteBook(firebaseKey).then(() => {
           getBooks(uid).then(showBooks);
         });

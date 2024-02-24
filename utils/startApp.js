@@ -7,10 +7,9 @@ import formEvents from '../events/formEvents';
 import { showBooks } from '../pages/books';
 import navigationEvents from '../events/navigationEvents';
 
-const startApp = (uid, variable) => {
-  console.warn(variable);
+const startApp = (uid) => {
   domBuilder(); // BUILD THE DOM
-  domEvents(uid, variable); // ADD THE EVENT LISTENTERS TO THE DOM
+  domEvents(uid); // ADD THE EVENT LISTENTERS TO THE DOM
   formEvents(uid); // ADD FORM EVENT LISTENTERS TO THE DOM
   navBar(); // DYNAMICALLY ADD THE NAV
   logoutButton(); // ADD THE LOGOUT BUTTON COMPONENT

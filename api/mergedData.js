@@ -29,6 +29,7 @@ const getAuthorDetails = async (authorFirebaseKey) => {
 
 const deleteAuthorAndAuthorBooks = async (authorFirebaseKey) => {
   const authorBooks = await getAuthorBooks(authorFirebaseKey);
+  console.warn(authorBooks);
   const deleteBookPromises = await authorBooks.map((abObj) => deleteBook(abObj.firebaseKey));
 
   await Promise.all(deleteBookPromises).then(() => deleteSingleAuthor(authorFirebaseKey));
