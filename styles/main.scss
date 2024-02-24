@@ -84,8 +84,12 @@ body {
 }
 
 #view {
-  width: 90%;
-  margin: auto;
+    width: 90%;
+    display: flex;
+    flex-flow: row wrap;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
 
   .details {
     min-width: 50%;
@@ -94,5 +98,15 @@ body {
 
   .description {
     white-space: pre-wrap;
+  }
+
+  .card {
+    width: 300px;
+    margin: 5px;
+
+    .sale-badge {
+      font-size: 1em;
+      background-color: blue;
+    }
   }
 }

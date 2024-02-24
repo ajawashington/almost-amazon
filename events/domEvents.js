@@ -1,8 +1,10 @@
-import { deleteSingleAuthor, getSingleAuthor } from '../api/authorData';
+import { getAuthors, getSingleAuthor } from '../api/authorData';
 import { deleteBook, getBooks, getSingleBook } from '../api/bookData';
-import { getAuthorDetails, getBookDetailsPt2 } from '../api/mergedData';
+import { deleteAuthorAndAuthorBooks, getAuthorDetails, getBookDetailsPt2 } from '../api/mergedData';
 import addAuthorForm from '../components/forms/addAuthorForm';
 import addBookForm from '../components/forms/addBookForm';
+import { showAuthors } from '../pages/authors';
+// import { showAuthors } from '../pages/authors';
 import { showBooks } from '../pages/books';
 import viewAuthor from '../pages/viewAuthor';
 import viewBook from '../pages/viewBook';
@@ -41,7 +43,10 @@ const domEvents = () => {
       // eslint-disable-next-line no-alert
       if (window.confirm('Want to delete?')) {
         const [, firebaseKey] = e.target.id.split('--');
-        deleteSingleAuthor(firebaseKey);
+
+        deleteAuthorAndAuthorBooks(firebaseKey).then(() => {
+          getAuthors().then(showAuthors);
+        });
       }
     }
 
