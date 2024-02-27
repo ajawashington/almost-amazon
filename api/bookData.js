@@ -4,32 +4,36 @@ import client from '../utils/client';
 const endpoint = client.databaseURL;
 
 // TODO: GET BOOKS
-const getBooks = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/books.json`, {
+const getBooks = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    }, // you technically do not need the options object for GET requests, but using it here for consistency
+    },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
-
 // TODO: DELETE BOOK
 const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-    }, // you technically do not need the options object for GET requests, but using it here for consistency
+    },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
-// TODO: GET SINGLE BOOK
 const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${firebaseKey}.json`, {
     method: 'GET',
@@ -42,13 +46,12 @@ const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// TODO: CREATE BOOK
 const createBook = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-    }, // you technically do not need the options object for GET requests, but using it here for consistency
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(payload)
   })
     .then((response) => response.json())
@@ -56,24 +59,47 @@ const createBook = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// TODO: UPDATE BOOK
 const updateBook = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${payload.firebaseKey}.json`, {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
-      'Content-Type': 'application/json',
-    }, // you technically do not need the options object for GET requests, but using it here for consistency
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(payload)
-  })
-    .then((response) => response.json())
+  }).then((response) => response.json())
     .then((data) => resolve(data))
     .catch(reject);
 });
 
 // TODO: FILTER BOOKS ON SALE
-const booksOnSale = () => {};
+const booksOnSale = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        const saleBooks = Object.values(data).filter((obj) => obj.sale);
+        resolve(saleBooks);
+      } else {
+        resolve([]);
+      }
+    })
+    .catch(reject);
+});
 
-// TODO: STRETCH...SEARCH BOOKS
+const getBookAuthors = (bookFirebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/bookAuthors.json?orderBy="book_id"&equalTo="${bookFirebaseKey}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
 
 export {
   getBooks,
@@ -81,5 +107,6 @@ export {
   booksOnSale,
   deleteBook,
   getSingleBook,
-  updateBook
+  updateBook,
+  getBookAuthors,
 };

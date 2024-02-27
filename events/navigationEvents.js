@@ -1,21 +1,31 @@
-import { getBooks } from '../api/bookData';
+import { booksOnSale, getBooks } from '../api/bookData';
+import { getOrdersByUID } from '../api/orderData';
 import { showBooks } from '../pages/books';
+import { showOrders } from '../pages/orders';
 import { signOut } from '../utils/auth';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (uid) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
 
   // TODO: BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
-    console.warn('CLICKED SALE BOOKS');
+    booksOnSale(uid).then(showBooks);
   });
 
   // TODO: ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    getBooks().then(showBooks);
+    getBooks(uid).then(showBooks);
+  });
+
+  document.querySelector('#logo').addEventListener('click', () => {
+    getBooks(uid).then(showBooks);
+  });
+
+  document.querySelector('#orders').addEventListener('click', () => {
+    getOrdersByUID(uid).then(showOrders);
   });
 
   // FIXME: STUDENTS Create an event listener for the Authors
