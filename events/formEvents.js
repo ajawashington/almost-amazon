@@ -1,5 +1,7 @@
 import { createBook, getBooks, updateBook } from '../api/bookData';
+import { createOrder, getOrdersByUID, updateOrder } from '../api/orderData';
 import { showBooks } from '../pages/books';
+import { showOrders } from '../pages/orders';
 
 const formEvents = (uid) => {
   document.querySelector('#main-container').addEventListener('submit', (e) => {
@@ -40,6 +42,25 @@ const formEvents = (uid) => {
 
       updateBook(payload).then(() => {
         getBooks(uid).then(showBooks);
+      });
+    }
+
+    // TODO: CLICK EVENT FOR SUBMITTING FORM FOR ADDING A ORDER
+    if (e.target.id.includes('submit-order')) {
+      const payload = {
+        title: document.querySelector('#title').value,
+        customer_first_name: document.querySelector('#customer_first_name').value,
+        customer_last_name: document.querySelector('#customer_last_name').value,
+        notes: document.querySelector('#notes').value,
+        uid
+      };
+
+      createOrder(payload).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+
+        updateOrder(patchPayload).then(() => {
+          getOrdersByUID(uid).then(showOrders);
+        });
       });
     }
 

@@ -5,6 +5,7 @@ import {
 } from '../api/mergedData';
 import { createOrderBook, deleteSingleOrderBook, updateOrderBook } from '../api/orderBooksData';
 import addBookForm from '../components/forms/addBookForm';
+import addOrderForm from '../components/forms/addOrderForm';
 import { showBooks } from '../pages/books';
 import { showBooksNotInOrder } from '../pages/booksNotInOrder';
 // import { showBooksNotInOrder } from '../pages/booksNotInOrder';
@@ -64,29 +65,48 @@ const domEvents = (uid) => {
       console.warn('ADD AUTHOR');
     }
 
+    // TODO: ADD ORDER
+    if (e.target.id.includes('add-order-btn')) {
+      addOrderForm();
+    }
+
+    // TODO: ADD BOOK TO ORDER
     if (e.target.id.includes('add-book-to-order-btn')) {
+      // SPLIT OFF THE BOTH KEYS FROM BUTTON
       const [, bookFirebaseKey, orderFirebaseKey] = e.target.id.split('--');
+
+      // CREATE A PAYLOAD TO REPRESENT THE ORDERBOOK MANY-TO-MANY RELATIONSHIP
       const payload = {
         book_id: bookFirebaseKey,
         order_id: orderFirebaseKey,
         uid
       };
 
+      // CREATE ORDERBOOK
       createOrderBook(payload).then(({ name }) => {
+        // PATCH FIREBASEKEY
         const patchPayload = { firebaseKey: name };
 
+        // UPDATE ORDER BOOK
         updateOrderBook(patchPayload).then(() => {
+          // CALL GET ALL BOOKS NOT IN THE ORDER SO THE BOOK JUST ADDED WILL NOT SHOW IN VIEW
+          // YOU CAN ONLY ADD BOOKS TO ORDER FROM THE showBooksNotInOrder VIEW
           getBooksNotInTheOrder(orderFirebaseKey, uid).then((booksArray) => showBooksNotInOrder(booksArray, orderFirebaseKey));
         });
       });
     }
 
+    // TODO: REMOVE A BOOK FROM AN ORDER
     if (e.target.id.includes('delete-book-from-order-btn')) {
+      // SPLIT OFF THE BOTH KEYS FROM BUTTON
       const [, bookFirebaseKey, orderFirebaseKey] = e.target.id.split('--');
 
+      // GET THE SINGLE BOOK ORDER SO YOU HAVE THE FIREBASEKEY
       getASingleBookOrder(bookFirebaseKey, orderFirebaseKey)
+        // DELETE SINGLE ORDERBOOK BY FIREBASEKEY
         .then((orderBook) => deleteSingleOrderBook(orderBook.firebaseKey))
         .then(() => {
+          // GET ORDER DETAILS AND VIEW ORDER
           getOrderAndBooks(orderFirebaseKey).then(viewOrder);
         });
     }

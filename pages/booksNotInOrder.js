@@ -24,6 +24,10 @@ const showBooksNotInOrder = (array, orderFirebaseKey) => {
             </div>
           </div>`;
     });
+    // REF: LINE 23
+    // WHEN ADDING A BOOK TO THE ORDER YOU NEED BOTH THE BOOK FIREBASEKEY AND THE ORDER FIREBASEKEY
+    // TO CREATE AN ORDERBOOK OBJECT SO WE INCLUDE BOTH IN THIS ID SO WE CAN SPLIT ON IT LATER.
+
     renderToDOM('#store', domString);
   } else {
     emptyBooks();
